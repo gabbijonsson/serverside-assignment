@@ -1,13 +1,20 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
 
 const port = 1234;
-const { getAllBoats, getBoatById, deleteBoatById, addBoat, findBoats } = require('./database.js')
+const {
+  getAllBoats,
+  getBoatById,
+  deleteBoatById,
+  addBoat,
+  findBoats,
+  checkContentInDB,
+} = require("./database.js");
 
-app.use( express.static(__dirname + '/public'));
-app.use( bodyParser.urlencoded({extended: true}) );
-app.use ( bodyParser.json() );
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // ! ROUTES
 
@@ -17,9 +24,9 @@ app.use ( bodyParser.json() );
 //   http://localhost:3000/
 //   http://localhost:3000/index.html
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html')
-})
+app.get("/", (req, res) => {
+  res.sendFile("index.html");
+});
 
 // * Resurs     Metod	Förväntat svar
 //   /boats/	GET	    Returnerar en array med alla båtar
@@ -31,40 +38,36 @@ app.get('/', (req, res) => {
 //     ...
 // ]
 
-app.get('/boats/', (req, res) => {
-    getAllBoats(response => {
-        res.send(response)
-    })
-})
-
+app.get("/boats/", (req, res) => {
+  getAllBoats((response) => {
+    res.send(response);
+  });
+});
 
 // * Resurs	    Metod	Förväntat svar
 //   /boat/:id	GET	    Returnerar en båt med efterfrågat id
 //   /boat/	    POST	Sparar ett båt-objekt i databasen
 //   /boat/:id	DELETE	Tar bort en båt från databasen
 
-app.get('/boat/:id', (req, res) => {
-    let id = req.params.id;
-    getBoatById(id, response => {
-        res.send(response)
-    })
-})
+app.get("/boat/:id", (req, res) => {
+  let id = req.params.id;
+  getBoatById(id, (response) => {
+    res.send(response);
+  });
+});
 
-app.delete('/boat/:id', (req, res) => {
-    let id = req.params.id;
-    deleteBoatById(id, response => {
-        res.send(response)
-    })
-})
+app.delete("/boat/:id", (req, res) => {
+  let id = req.params.id;
+  deleteBoatById(id, (response) => {
+    res.send(response);
+  });
+});
 
-app.post('/boat/', (req, res) => {
-    console.log("POST req recieved")
-    console.log(req.body);
-    
-    addBoat(req.body, response => {
-        res.send(response)
-    })
-})
+app.post("/boat/", (req, res) => {
+  addBoat(req.body, (response) => {
+    res.send(response);
+  });
+});
 
 // * Resurs	    Metod	Förväntat svar
 //   /search/   GET	    Returnerar upp till fem sökträffar
@@ -88,16 +91,18 @@ app.post('/boat/', (req, res) => {
 //   newest - yngst båt först
 //   Exempel: order=lowprice ska sortera resultatet så den billigaste båten visas först.
 
-app.get('/search/', (req, res) => {
-    let query = req.query;
-    findBoats(query, response => {
-        res.send(response)
-    })
-})
+app.get("/search/", (req, res) => {
+  let query = req.query;
+  findBoats(query, (response) => {
+    res.send(response);
+  });
+});
 
+// * Kontrollera så att det finns båtar i databasen, annars läs in dom mha boats.json
 
+checkContentInDB();
 
 // STARTA SERVER
 app.listen(port, () => {
-    console.log('Server is listening on port: ' + port);
-})
+  console.log("Server is listening on port: " + port);
+});

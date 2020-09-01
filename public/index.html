@@ -8,6 +8,60 @@
 <body>
     <section>
         <h1>Berras Båtar</h1>
+        <pre>
+        Resurs      Metod   Förväntat svar
+        /           GET     Servar frontend (senare)
+        Denna endpoint serverar en minimal index.html.
+        
+        http://localhost:3000/
+        http://localhost:3000/index.html
+        
+        
+        Resurs      Metod   Förväntat svar
+        /boats/     GET     Returnerar en array med alla båtar
+        
+        http://localhost:3000/boats/
+        [
+        { id: '001', model: 'Nimbus C9', ... },
+        { id: '002', model: 'Candela Seven', ''' },
+        ...
+        ]
+        
+
+        Resurs      Metod   Förväntat svar
+        /boat/:id   GET     Returnerar en båt med efterfrågat id
+        /boat/      POST    Sparar ett båt-objekt i databasen
+        /boat/:id   DELETE  Tar bort en båt från databasen
+        
+        http://localhost:3000/boat/001 (GET)
+        http://localhost:3000/boat/ (POST har data i request body)
+        http://localhost:3000/boat/001 (DELETE)
+        
+        
+        Resurs      Metod   Förväntat svar
+        /search/    GET     Returnerar upp till fem sökträffar
+        Alla querystring-parametrar är valfria.
+
+        http://localhost:3000/search/?word=nimbus
+        http://localhost:3000/search/?word=nimbus&maxprice=30000&is_sail=yes&has_motor=yes
+        http://localhost:3000/search/?has_motor=yes&order=lowprice
+        
+        
+        Sökning
+        Man ska använda querystring för att tala om vad man söker efter. Parametrar:
+        
+        word - en sträng med ett ord som måste finnas i modellnamnet
+        maxprice - högsta tillåtna priset
+        Exempel: en sökning på word=ara matchar både BaRa och Skaraborg.
+        
+        Sökresultatet sorteras med hjälp av sorteringsnyckeln:
+        
+        lowprice - lägst pris först
+        name_asc - modellnamn, stigande i bokstavsordning
+        name_desc - modellnamn, fallande i bokstavsordning
+        oldest - äldst båt först, dvs fallande efter ålder
+        newest - yngst båt först
+        Exempel: order=lowprice ska sortera resultatet så den billigaste båten visas först.</pre>
     </section>
 </body>
 </html>
