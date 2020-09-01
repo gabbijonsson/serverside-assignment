@@ -3,9 +3,11 @@ const bodyParser = require('body-parser')
 const app = express()
 
 const port = 1234;
-const { getAllBoats, getBoatById } = require('./database.js')
+const { getAllBoats, getBoatById, deleteBoatById, addBoat } = require('./database.js')
 
 app.use( express.static(__dirname + '/public'));
+app.use( bodyParser.urlencoded({extended: true}) );
+app.use ( bodyParser.json() );
 
 // ! ROUTES
 
@@ -31,7 +33,6 @@ app.get('/', (req, res) => {
 
 app.get('/boats/', (req, res) => {
     getAllBoats(response => {
-        console.log(response)
         res.send(response)
     })
 })
@@ -52,6 +53,15 @@ app.get('/boat/:id', (req, res) => {
 app.delete('/boat/:id', (req, res) => {
     let id = req.params.id;
     deleteBoatById(id, response => {
+        res.send(response)
+    })
+})
+
+app.post('/boat/', (req, res) => {
+    console.log("POST req recieved")
+    console.log(req.body);
+    
+    addBoat(req.body, response => {
         res.send(response)
     })
 })

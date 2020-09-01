@@ -8,7 +8,7 @@ const collectionName = 'boats';
 function get(filter, cb) {
     MongoClient.connect(url, { useUnifiedTopology: true }, async(error, client) => {
         if(error) {
-            cb('"An error occured. Could not connect."' + error);
+            cb('An error occured. Could not connect.' + error);
             return;
         }
         const col = client.db(dbName).collection(collectionName);
@@ -17,13 +17,49 @@ function get(filter, cb) {
             const array = await cursor.toArray();
             cb(array);
         } catch {
-            cb('Invalid query');
+            cb('Invalid query' + error);
         } finally {
             client.close()
         }
     })
 }
 
+function deleteBoatById(filter, cb) {
+    MongoClient.connect(url, { useUnifiedTopology: true }, async(error, client) => {
+        if(error) {
+            cb('An error occured. Could not connect.' + error);
+            return;
+        }
+        const col = client.db(dbName).collection(collectionName);
+        try {
+            let id = { _id: new ObjectID(filter) }
+            const response = await col.deleteOne(id);
+            cb(response.result);
+        } catch {
+            cb('Invalid query' + error);
+        } finally {
+            client.close()
+        }
+    })
+}
+
+function addBoat(newDoc, cb) {
+    MongoClient.connect(url, { useUnifiedTopology: true }, async(error, client) => {
+        if(error) {
+            cb('An error occured. Could not connect.' + error);
+            return;
+        }
+        const col = client.db(dbName).collection(collectionName);
+        try {
+            const response = await col.insertOne(newDoc);
+            cb(response.result);
+        } catch {
+            cb('Invalid query' + error);
+        } finally {
+            client.close()
+        }
+    })
+}
 
 
 function getAllBoats(cb) {
@@ -34,12 +70,11 @@ function getBoatById(id, cb) {
     get({ _id: new ObjectID(id) }, array => cb( array[0] ))
 }
 
-function deleteBoatById(id, cb) {
-    
-}
 
 
 module.exports = {
     getAllBoats,
-    getBoatById
+    getBoatById,
+    deleteBoatById,
+    addBoat
 }

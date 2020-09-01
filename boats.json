@@ -1,5 +1,6 @@
 [
     {
+        "_id": "5f4e4227603a223af8cf3861",
         "model": "Uttern 5500 HT",
         "made": 1998,
         "price": 90000,
@@ -7,6 +8,7 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf3862",
         "model": "Bertram Moppie 26",
         "made": 1978,
         "price": 300000,
@@ -14,13 +16,7 @@
         "has_motor": true
     },
     {
-        "model": "Pioner 15 Allround",
-        "made": 2020,
-        "price": 49999.99,
-        "is_sail": false,
-        "has_motor": true
-    },
-    {
+        "_id": "5f4e4227603a223af8cf3864",
         "model": "Quicksilver Active 675 Open",
         "made": 2011,
         "price": 285000,
@@ -28,6 +24,7 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf3865",
         "model": "Beneteau Oceanis 41.1",
         "made": 2016,
         "price": 1995000,
@@ -35,6 +32,7 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf3866",
         "model": "Pioner 10 Classic",
         "made": 2019,
         "price": 17900,
@@ -42,6 +40,7 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf3867",
         "model": "Husky R6 Yamaha F130",
         "made": 2020,
         "price": 439000,
@@ -49,6 +48,7 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf3868",
         "model": "Päijän Vene",
         "made": 2002,
         "price": 10000,
@@ -56,6 +56,7 @@
         "has_motor": false
     },
     {
+        "_id": "5f4e4227603a223af8cf3869",
         "model": "Northwind47",
         "made": 1986,
         "price": 1400000,
@@ -63,10 +64,19 @@
         "has_motor": true
     },
     {
+        "_id": "5f4e4227603a223af8cf386a",
         "model": "Albin Accent",
         "made": 1976,
         "price": 40000,
         "is_sail": true,
         "has_motor": true
     },
+    {
+        "_id": "5f4e71eaf07b025bb03c3b22",
+        "model": "Pioner 15 Allround",
+        "made": 2020,
+        "price": 49999.99,
+        "is_sail": false,
+        "has_motor": true
+    }
 ]
