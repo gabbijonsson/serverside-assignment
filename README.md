@@ -2,10 +2,10 @@ Göteborgaren Berra behöver uppgradera sin båtaffär. Han vill ha en webbshop 
 
 För att Berra ska kunna kontrollera att API:et fungerar som det ska behöver det finnas en databas. För att man inte ska behöva lägga in all data manuellt varje gång man byter server, ska du göra skript som lägger in data i databasen.
 
-<!-- Databas
-Databasen ska använda MongoDB. Den ska innehålla minst 10 båt-dokument med olika värden. -->
+Databas
+Databasen ska använda MongoDB. Den ska innehålla minst 10 båt-dokument med olika värden.
 
-<!-- Datamodell
+Datamodell
 En båt har följande egenskaper:
 
 id - skapas av databasen!
@@ -13,13 +13,13 @@ modellnamn - sträng med upp till 64 tecken
 tillverkningsår - heltal
 pris - flyttal (tal med decimaler)
 segelbåt - kan vara ja/nej
-motor - kan vara ja/nej -->
+motor - kan vara ja/nej
 
 
 API spec
 API:et ska ha följande endpoints:
 
-<!-- Resurs	Metod	Förväntat svar
+Resurs	Metod	Förväntat svar
 /	    GET	    Servar frontend (senare)
 Denna endpoint serverar en minimal index.html.
 
@@ -48,7 +48,7 @@ Enstaka värden kan skickas med querystring, men POST och PUT kommer att skicka 
 
 http://localhost:3000/boat/001 (GET)
 http://localhost:3000/boat/    (POST har data i request body)
-http://localhost:3000/boat/001 (DELETE) -->
+http://localhost:3000/boat/001 (DELETE)
 
 Resurs	    Metod	Förväntat svar
 /search/	GET	    Returnerar upp till fem sökträffar
@@ -88,4 +88,3 @@ Här är min inlämning i kursen Serverside programmering.
 Länk till repot på GitHub (OBS! Kontrollera att repot inte är privat)
 Jag har implementerat följande level ups: 1, 2, 4.
 Webbservern är publicerad här: (URL)
-

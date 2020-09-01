@@ -5,7 +5,7 @@ const dbName = 'berrasboats';
 const collectionName = 'boats';
 
 
-function get(filter, cb) {
+function get(filter, cb, sortBy) {
     MongoClient.connect(url, { useUnifiedTopology: true }, async(error, client) => {
         if(error) {
             cb('An error occured. Could not connect.' + error);
@@ -13,7 +13,7 @@ function get(filter, cb) {
         }
         const col = client.db(dbName).collection(collectionName);
         try {
-            const cursor = await col.find(filter);
+            const cursor = await col.find(filter).sort(sortBy);
             const array = await cursor.toArray();
             cb(array);
         } catch {
@@ -70,11 +70,45 @@ function getBoatById(id, cb) {
     get({ _id: new ObjectID(id) }, array => cb( array[0] ))
 }
 
+function findBoats(query, cb) {
+    const filter = {};
+    let sortBy;
+    switch(query.order) {            
+        case 'lowprice':
+            sortBy = { price: 1 };
+            break;
+        case 'name_asc':
+            sortBy = { model: 1 };
+            break;
+        case 'name_desc':
+            sortBy = { model: -1 };
+            break;
+        case 'oldest':
+            sortBy = { made: 1 };
+            break;
+        case 'newest':
+            sortBy = { made: -1 };
+            break;    
+        default:
+            sortBy = {};
+            break;
+    }
+    if(query.name) {
+        filter.model = { "$regex": `.*${query.name}.*`, "$options": 'i' }
+    }
+    if(query.maxprice) {
+        filter.price = { "$lt": Number(query.maxprice) }
+    }
+    get(filter, cb, sortBy)
+    console.log(filter)
+    
+}
 
 
 module.exports = {
     getAllBoats,
     getBoatById,
     deleteBoatById,
-    addBoat
+    addBoat,
+    findBoats
 }

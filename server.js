@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 
 const port = 1234;
-const { getAllBoats, getBoatById, deleteBoatById, addBoat } = require('./database.js')
+const { getAllBoats, getBoatById, deleteBoatById, addBoat, findBoats } = require('./database.js')
 
 app.use( express.static(__dirname + '/public'));
 app.use( bodyParser.urlencoded({extended: true}) );
@@ -66,7 +66,34 @@ app.post('/boat/', (req, res) => {
     })
 })
 
+// * Resurs	    Metod	Förväntat svar
+//   /search/   GET	    Returnerar upp till fem sökträffar
+//   Alla querystring-parametrar är valfria.
+//   http://localhost:3000/search/?word=nimbus
+//   http://localhost:3000/search/?word=nimbus&maxprice=30000&is_sail=yes&has_motor=yes
+//   http://localhost:3000/search/?has_motor=yes&order=lowprice
+//   Sökning
+//   Man ska använda querystring för att tala om vad man söker efter. API:et ska hantera följande parametrar:
 
+//   word - en sträng med ett ord som måste finnas i modellnamnet
+//   maxprice - högsta tillåtna priset
+//   Exempel: en sökning på word=ara matchar både BaRa och Skaraborg.
+
+//   Sökresultatet ska sorteras med hjälp av sorteringsnyckeln:
+
+//   lowprice - lägst pris först
+//   name_asc - modellnamn, stigande i bokstavsordning
+//   name_desc - modellnamn, fallande i bokstavsordning
+//   oldest - äldst båt först, dvs fallande efter ålder
+//   newest - yngst båt först
+//   Exempel: order=lowprice ska sortera resultatet så den billigaste båten visas först.
+
+app.get('/search/', (req, res) => {
+    let query = req.query;
+    findBoats(query, response => {
+        res.send(response)
+    })
+})
 
 
 
