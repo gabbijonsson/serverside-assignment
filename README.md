@@ -1,68 +1,91 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Göteborgaren Berra behöver uppgradera sin båtaffär. Han vill ha en webbshop där man kan söka på och köpa båtar. Men innan man kan bygga en frontend vill han ha ett API. Din uppgift är att registrera båtarna i en databas och bygga ett API för det.
 
-## Available Scripts
+För att Berra ska kunna kontrollera att API:et fungerar som det ska behöver det finnas en databas. För att man inte ska behöva lägga in all data manuellt varje gång man byter server, ska du göra skript som lägger in data i databasen.
 
-In the project directory, you can run:
+<!-- Databas
+Databasen ska använda MongoDB. Den ska innehålla minst 10 båt-dokument med olika värden. -->
 
-### `npm start`
+<!-- Datamodell
+En båt har följande egenskaper:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+id - skapas av databasen!
+modellnamn - sträng med upp till 64 tecken
+tillverkningsår - heltal
+pris - flyttal (tal med decimaler)
+segelbåt - kan vara ja/nej
+motor - kan vara ja/nej -->
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+API spec
+API:et ska ha följande endpoints:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- Resurs	Metod	Förväntat svar
+/	    GET	    Servar frontend (senare)
+Denna endpoint serverar en minimal index.html.
 
-### `npm run build`
+http://localhost:3000/
+http://localhost:3000/index.html
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Resurs	Metod	Förväntat svar
+/boats/	GET	    Returnerar en array med alla båtar
+Använd denna för att kontrollera vad som finns i databasen. När databasen växer är det ineffektivt att hämta alla dokument, men det är okej i den här uppgiften eftersom vi inte har så många dokument.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+http://localhost:3000/boats/
+[
+    { id: '001', model: 'Nimbus C9', ... },
+    { id: '002', model: 'Candela Seven', ''' },
+    ...
+]
 
-### `npm run eject`
+Resurs	    Metod	Förväntat svar
+/boat/:id	GET	    Returnerar en båt med efterfrågat id
+/boat/	    POST	Sparar ett båt-objekt i databasen
+/boat/:id	DELETE	Tar bort en båt från databasen
+CRUD-operationer på datan. Man ska kunna lägga till, hämta eller ta bort ett båt-dokument ur databasen med hjälp av dessa endpoints.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Enstaka värden kan skickas med querystring, men POST och PUT kommer att skicka hela båt-objekt. Använd request body i stället för querystring.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+http://localhost:3000/boat/001 (GET)
+http://localhost:3000/boat/    (POST har data i request body)
+http://localhost:3000/boat/001 (DELETE) -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Resurs	    Metod	Förväntat svar
+/search/	GET	    Returnerar upp till fem sökträffar
+Alla querystring-parametrar är valfria.
+http://localhost:3000/search/?word=nimbus
+http://localhost:3000/search/?word=nimbus&maxprice=30000&is_sail=yes&has_motor=yes
+http://localhost:3000/search/?has_motor=yes&order=lowprice
+Sökning
+Man ska använda querystring för att tala om vad man söker efter. API:et ska hantera följande parametrar:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+word - en sträng med ett ord som måste finnas i modellnamnet
+maxprice - högsta tillåtna priset
+Exempel: en sökning på word=ara matchar både BaRa och Skaraborg.
 
-## Learn More
+Sökresultatet ska sorteras med hjälp av sorteringsnyckeln:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+lowprice - lägst pris först
+name_asc - modellnamn, stigande i bokstavsordning
+name_desc - modellnamn, fallande i bokstavsordning
+oldest - äldst båt först, dvs fallande efter ålder
+newest - yngst båt först
+Exempel: order=lowprice ska sortera resultatet så den billigaste båten visas först.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Bedömning
+För betyget Godkänd ska den studerande
+Visa grundläggande förståelse för server side programmering
+För betyget Väl Godkänd ska den studerande:
+Uppnått kraven för betyget godkänt
+Visa god förståelse för server side programmering
+För godkänt på uppgiften ska du göra ett projekt som följer kravspecifikationen.
+För väl godkänt ska du dessutom visa att du har en god förståelse. Detta gör du genom att implementera tillräckligt många Level ups. Både kvalitet (hur bra) och kvantitet (hur många) kommer att tas med i bedömningen.
 
-### Code Splitting
+Inlämning
+Lämna in uppgiften genom att skicka ett meddelande till läraren via slack. Tala om vilka level ups du har gjort. Om du har publicerat uppgiften så ska du skicka länk till den också. Exempel:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Här är min inlämning i kursen Serverside programmering.
+Länk till repot på GitHub (OBS! Kontrollera att repot inte är privat)
+Jag har implementerat följande level ups: 1, 2, 4.
+Webbservern är publicerad här: (URL)
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
